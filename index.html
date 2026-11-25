@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>天国列车 · 2026 圣诞剧</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* 布局：夜色站台。顶部站牌式标题，时间表做成发车信息屏，其余内容是沿着“站台”往下走的各个站点。单一深色主题（刻意为之）。 */
+:root{
+  --night:#10161f;      /* 站台夜色 */
+  --night-2:#18212d;    /* 面板 */
+  --rail:#2a3644;       /* 分隔线、铁轨灰 */
+  --lamp:#f2b54a;       /* 站台灯光 */
+  --lamp-soft:#f2b54a22;
+  --ticket:#ece4d3;     /* 车票纸色：正文 */
+  --mute:#9aa6b4;       /* 次要文字 */
+  --signal:#5fc28f;     /* 已完成 */
+  --alert:#e8735a;      /* 紧急 */
+  --display:"ZCOOL QingKe HuangYou","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --body:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--night);color:var(--ticket);font-family:var(--body);font-size:16px;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--night)}
+a{color:var(--lamp)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--lamp);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* 顶部导航 */
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rail)}
+nav.top .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav.top a{flex:none;color:var(--mute);text-decoration:none;font-size:14px;padding:4px 10px;border-radius:999px;white-space:nowrap}
+nav.top a:hover{color:var(--ticket);background:var(--night-2)}
+
+/* 站牌式开头 */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rail)}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32;max-width:none}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,var(--night) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-block:56px 40px;display:grid;gap:22px}
+.sign{display:inline-flex;align-items:center;gap:14px;align-self:start;justify-self:start;background:var(--ticket);color:var(--night);padding:8px 18px 6px;border-radius:6px;box-shadow:0 0 0 4px var(--night),0 0 0 6px var(--ticket)}
+.sign span{font-family:var(--display);font-size:clamp(40px,8vw,72px);line-height:1;letter-spacing:.06em}
+.sign small{font-family:var(--mono);font-size:12px;letter-spacing:.12em;border-left:2px solid var(--night);padding-left:12px;line-height:1.3}
+.hero p.lead{max-width:36em;font-size:18px;margin:0;color:var(--ticket);text-wrap:pretty}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin:0;padding:0;list-style:none}
+.facts li{display:grid}
+.facts b{font-family:var(--mono);font-size:22px;color:var(--lamp);font-weight:700;font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;color:var(--mute)}
+
+section{padding-block:48px;border-bottom:1px solid var(--rail)}
+h2{font-family:var(--display);font-weight:400;font-size:34px;letter-spacing:.04em;margin:0 0 6px;text-wrap:balance}
+h2 .stop{font-family:var(--mono);font-size:13px;color:var(--lamp);letter-spacing:.14em;display:block;margin-bottom:4px}
+.sub{color:var(--mute);margin:0 0 24px;max-width:40em}
+h3{font-size:19px;margin:0}
+
+/* 发车信息屏 */
+.board{background:#0a0e14;border:1px solid var(--rail);border-radius:10px;overflow-x:auto}
+.board table{width:100%;border-collapse:collapse;min-width:620px;font-variant-numeric:tabular-nums}
+.board th{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);text-align:left;padding:12px 14px;border-bottom:1px solid var(--rail);font-weight:500}
+.board td{padding:14px;border-bottom:1px dashed #1e2833;vertical-align:top}
+.board tr:last-child td{border-bottom:0}
+.board td.t{font-family:var(--mono);color:var(--lamp);font-size:17px;white-space:nowrap}
+.board td.t small{display:block;color:var(--mute);font-size:12px}
+.board td.who{color:var(--mute);font-size:14px;white-space:nowrap}
+.pill{font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:3px 8px;border-radius:4px;border:1px solid currentColor;white-space:nowrap}
+.pill.next{color:var(--lamp);background:var(--lamp-soft)}
+.pill.done{color:var(--signal)}
+.pill.later{color:var(--mute)}
+.pill.today{color:var(--night);background:var(--lamp);border-color:var(--lamp)}
+.board tr.is-next td{background:#f2b54a0d}
+
+/* 待办 */
+.todo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:22px}
+.todo article{background:var(--night-2);border:1px solid var(--rail);border-radius:10px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.todo .due{font-family:var(--mono);font-size:12px;color:var(--lamp)}
+.todo .due.urgent{color:var(--alert)}
+.todo p{margin:0;color:var(--mute);font-size:14px}
+
+/* 角色 */
+.cast{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.ticket{position:relative;background:var(--ticket);color:var(--night);border-radius:8px;padding:16px 18px 14px;display:grid;gap:6px;align-content:start}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--night);transform:translateY(-50%)}
+.ticket::before{left:-7px}.ticket::after{right:-7px}
+.ticket header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px dashed #10161f55;padding-bottom:6px}
+.ticket h3{font-size:18px}
+.ticket .n{font-family:var(--mono);font-size:13px;font-weight:700}
+.ticket p{margin:0;font-size:14px;line-height:1.55}
+.ticket .prop{font-size:13px;color:#4b5563}
+.ticket .end{font-family:var(--mono);font-size:11px;letter-spacing:.08em;justify-self:start;padding:2px 7px;border-radius:3px;background:var(--night);color:var(--ticket)}
+.ticket .end.on{background:#1f5e3f;color:#e7f6ee}
+.note{font-size:14px;color:var(--mute);margin:16px 0 0}
+
+/* 剧本 */
+.acts{display:grid;gap:28px}
+.act{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:24px;align-items:start}
+.act figure{margin:0;position:sticky;top:72px}
+.act figure img{border-radius:8px;border:1px solid var(--rail);display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.act figcaption{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:6px;letter-spacing:.06em}
+.act .time{font-family:var(--mono);color:var(--lamp);font-size:13px;letter-spacing:.06em}
+.act h3{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.04em;margin:2px 0 8px}
+.act ol,.act ul{margin:8px 0 0;padding-left:1.3em;display:grid;gap:6px}
+.act li::marker{color:var(--lamp);font-family:var(--mono)}
+.act p{margin:0}
+.act .cue{font-family:var(--mono);font-size:12px;color:var(--night);background:var(--lamp);padding:1px 6px;border-radius:3px;margin-right:4px;white-space:nowrap}
+@media (max-width:720px){.act{grid-template-columns:1fr}.act figure{position:static}}
+
+/* 音乐 */
+.player{background:var(--night-2);border:1px solid var(--rail);border-radius:10px;padding:18px;display:grid;gap:12px;margin-bottom:22px}
+.player audio{width:100%}
+.player .status{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:3px 10px;border-radius:999px;border:1px solid var(--rail);color:var(--mute)}
+.chip.ok{border-color:var(--signal);color:var(--signal)}
+.tbl{overflow-x:auto;border:1px solid var(--rail);border-radius:10px}
+.tbl table{width:100%;border-collapse:collapse;min-width:700px;font-size:14px}
+.tbl th{text-align:left;font-weight:600;color:var(--mute);font-size:12px;padding:10px 12px;border-bottom:1px solid var(--rail);background:var(--night-2)}
+.tbl td{padding:10px 12px;border-bottom:1px solid #1e2833;vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-family:var(--mono);color:var(--lamp);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tbl tr.silence td{background:#e8735a12}
+.tbl tr.silence td:nth-child(2){color:var(--alert)}
+
+/* PPT */
+.slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.slides figure{margin:0}
+.slides img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--rail);background:#fff}
+.slides figcaption{font-size:13px;color:var(--mute);margin-top:4px}
+.slides figcaption b{font-family:var(--mono);color:var(--lamp);font-weight:500;margin-right:6px}
+
+/* 准备 */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.list{list-style:none;margin:10px 0 0;padding:0;display:grid}
+.list li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--rail);font-size:15px}
+.list li span:last-child{color:var(--mute);font-size:13px;text-align:right}
+
+/* 下载 */
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.dl .dlbtn{color:inherit;text-decoration:none;cursor:pointer;background:var(--night-2);border:1px solid var(--rail);border-radius:10px;padding:16px 18px;display:grid;gap:4px;transition:border-color .15s}
+.dl .dlbtn:hover{border-color:var(--lamp)}
+.dl .dlbtn b{font-size:16px}
+.dl .dlbtn span{font-size:13px;color:var(--mute)}
+.dl .dlbtn em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--lamp)}
+
+
+/* 待确认 */
+.confirm{counter-reset:c;list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.confirm li{counter-increment:c;display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px}
+.confirm li::before{content:counter(c);font-family:var(--mono);color:var(--night);background:var(--lamp);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700}
+.confirm b{display:block}
+.confirm p{margin:2px 0 0;color:var(--mute);font-size:15px}
+footer{padding-block:32px 48px;color:var(--mute);font-size:14px}
+footer p{margin:0 0 6px}
+</style>
+
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<nav class="top" aria-label="页面导航"><div class="wrap">
+  <a href="#schedule">时间表</a><a href="#cast">角色</a><a href="#script">剧本</a><a href="#music">音乐</a><a href="#slides">PPT</a><a href="#prep">道具与分工</a><a href="#files">下载</a><a href="#confirm">待确认</a>
+</div></nav>
+
+<header class="hero">
+  <img class="bg" src="img/s3.jpg" alt="">
+  <div class="wrap">
+    <div class="sign"><span>天国列车</span><small>HEAVEN<br>EXPRESS</small></div>
+    <p class="lead">主日学圣诞哑剧。全剧没有台词，讲站台上的人面对列车召唤时的不同选择：有人马上上车，有人犹豫，有人下了车，最后列车开走了。</p>
+    <ul class="facts">
+      <li><b>12/20</b><span>主日演出</span></li>
+      <li><b id="countdown">—</b><span>距离演出</span></li>
+      <li><b>7–8</b><span>位小演员</span></li>
+      <li><b>7′45″</b><span>全剧时长</span></li>
+      <li><b>3 + 1</b><span>次排练 + 彩排</span></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+<section id="schedule"><div class="wrap">
+  <h2><span class="stop">第 1 站</span>排练时间表</h2>
+  <p class="sub">只有 3 个主日可以排练，每次都不能缺。带剧老师：丁丁老师。</p>
+  <div class="board">
+    <table>
+      <thead><tr><th>日期</th><th>内容</th><th>谁到场</th><th>状态</th></tr></thead>
+      <tbody id="board">
+        <tr data-date="2026-11-29"><td class="t">11/29<small>主日</small></td><td>第 1 次排练：讲故事和主旨，分角色，走第一、二幕</td><td class="who">演员</td><td class="s"></td></tr>
+        <tr data-date="2026-12-06"><td class="t">12/06<small>主日</small></td><td>第 2 次排练：不放音乐，五幕动作全部慢练 3 遍，地上贴标记</td><td class="who">演员</td><td class="s"></td></tr>
+        <tr data-date="2026-12-13"><td class="t">12/13<small>主日</small></td><td>第 3 次排练：合音乐和 PPT，重点练 4:25–4:47（急停、冲下车、关门、离场）</td><td class="who">演员、音控、PPT</td><td class="s"></td></tr>
+        <tr data-date="2026-12-19"><td class="t">12/19<small>周六</small></td><td>彩排：正式场地，灯光、蜡烛、后台全部到齐，连演 2 遍</td><td class="who">所有人</td><td class="s"></td></tr>
+        <tr data-date="2026-12-20"><td class="t">12/20<small>主日</small></td><td>演出：提前 30 分钟到场，检查道具、音响和投影</td><td class="who">所有人</td><td class="s"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="todo" aria-label="排练前要完成的事">
+    <article><span class="due urgent">11/28 前</span><h3>定演员、找音控</h3><p>选定 7 个孩子；找到音控同工，并确认演出场地和 12/19 彩排时间。</p></article>
+    <article><span class="due">11/29 前</span><h3>打印、通知家长</h3><p>演员版每个孩子 1 份，老师版 2 份。把排练和彩排日期告诉家长。</p></article>
+    <article><span class="due">12/10 前</span><h3>交钢琴录音</h3><p>司琴录 5 首纯音乐，交来后自动合成完整音轨。</p></article>
+    <article><span class="due">12/13 前</span><h3>道具和 PPT</h3><p>手举牌、LED 蜡烛备齐；PPT 第 2–7 张裁掉水印。</p></article>
+  </div>
+</div></section>
+
+<section id="cast"><div class="wrap">
+  <h2><span class="stop">第 2 站</span>角色</h2>
+  <p class="sub">结局时车上 3 人、站台 3 人。人少时可请老师演列车长；人多可以加“站台路人”。</p>
+  <div class="cast">
+    <div class="ticket"><header><h3>列车长</h3><span class="n">× 1</span></header><p>平和庄重，动作慢而稳，是召唤的传递者。</p><p class="prop">白色长袍或制服、“天国的列车”牌子</p><span class="end on">带列车离开</span></div>
+    <div class="ticket"><header><h3>果断登车者</h3><span class="n">× 2</span></header><p>早就准备好了，一听召唤就上车，不回头。</p><p class="prop">无</p><span class="end on">车上</span></div>
+    <div class="ticket"><header><h3>犹豫者 A</h3><span class="n">× 1</span></header><p>挣扎后把游戏机扔掉，第二次邀请时上车。</p><p class="prop">游戏机</p><span class="end on">车上</span></div>
+    <div class="ticket"><header><h3>犹豫者 B</h3><span class="n">× 1</span></header><p>脚抬起又放下，最后没迈出那一步。</p><p class="prop">发饰</p><span class="end">站台</span></div>
+    <div class="ticket"><header><h3>中途反悔者</h3><span class="n">× 1</span></header><p>上了车，心却一直在站台。戏份最重，选表现力最强的孩子。</p><p class="prop">下车后捡起 A 扔下的游戏机</p><span class="end">站台</span></div>
+    <div class="ticket"><header><h3>留守追悔者</h3><span class="n">× 1–2</span></header><p>抱着胳膊旁观，觉得事不关己。</p><p class="prop">漫画书</p><span class="end">站台</span></div>
+  </div>
+</div></section>
+
+<section id="script"><div class="wrap">
+  <h2><span class="stop">第 3 站</span>分幕剧本</h2>
+  <p class="sub">时间和下面的音乐提示表一致。黄色标签是音乐或音效的卡点。</p>
+  <div class="acts">
+    <article class="act">
+      <figure><img src="img/s1.jpg" alt="PPT 第 1 张：经文页" loading="lazy"><figcaption>PPT 第 1 张 · 开场经文</figcaption></figure>
+      <div><span class="time">开场前</span><h3>经文与入座</h3>
+        <p>屏幕停在经文页：“日期满了，神的国近了！你们当悔改，信福音。”（马可福音 1:15）演员在侧台就位，主持人报幕后灯亮、切第 2 张，音乐从 0:00 开始。</p></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s2.jpg" alt="PPT 第 2 张：午后的站台" loading="lazy"><figcaption>PPT 第 2 张</figcaption></figure>
+      <div><span class="time">0:00 – 0:55</span><h3>第一幕　站台日常</h3>
+        <p>暖黄灯光，列车声隐约响起，所有人松散地分布在站台上，像一个普通的午后。</p>
+        <ul>
+          <li>两位果断登车者在角落轻声比画、对视微笑，偶尔望向列车来的方向。</li>
+          <li>犹豫者 A 蹲着玩游戏机，犹豫者 B 反复摆弄发饰。</li>
+          <li>中途反悔者和留守追悔者靠在栏杆边打闹，留守者翻着漫画书。</li>
+        </ul></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s3.jpg" alt="PPT 第 3 张：列车到站" loading="lazy"><figcaption>PPT 第 3 张</figcaption></figure>
+      <div><span class="time">0:55 – 2:50</span><h3>第二幕　列车到来</h3>
+        <p><span class="cue">0:55 钟声 ×3</span>站台上的人一个接一个停下动作。</p>
+        <ol>
+          <li>列车长举牌入场，每秒一步，走到椅子旁转身，抬手做“请上车”的手势。</li>
+          <li>果断登车者立刻放下东西，点头致意后上车坐好，腰背挺直，不回头（1:25–1:45 完成）。</li>
+          <li>其他人这才抬头，一个接一个露出惊讶的表情，错开 1–2 秒。</li>
+          <li>两位犹豫者慢慢站起，往车门走两步，又停住，回头看刚才蹲的地方。</li>
+        </ol></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s4.jpg" alt="PPT 第 4 张：列车长邀请登车" loading="lazy"><figcaption>PPT 第 4 张</figcaption></figure>
+      <div><span class="time">2:50 – 4:20</span><h3>第三幕　抉择拉扯</h3>
+        <p>列车长第二次抬手邀请，带着温柔的催促。</p>
+        <ol>
+          <li>犹豫者 A 闭一下眼，把游戏机往身后一扔，大步上车，长出一口气。</li>
+          <li>犹豫者 B 脚抬起又放下（2 次，每次停 1 秒），一会儿看车上，一会儿看站台。</li>
+          <li>中途反悔者被招手，犹犹豫豫上车坐在边上，回头望站台 3 次（2:55、3:25、3:55），一次比一次明显。</li>
+          <li>留守追悔者抱着胳膊站在最边上，像在看热闹。</li>
+        </ol></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s5.jpg" alt="PPT 第 5 张：反悔者要下车" loading="lazy"><figcaption>PPT 第 5 张</figcaption></figure>
+      <div><span class="time">4:20 – 5:40</span><h3>第四幕　下车离去</h3>
+        <p>列车长走到车门口，做“即将关门”的手势。</p>
+        <ol>
+          <li><span class="cue">4:25 音乐急停</span>中途反悔者猛地站起。</li>
+          <li><span class="cue">4:28</span>推开拉他的同伴（对方手伸到极限，定格 2 秒），冲下车，捡起游戏机抱在怀里。</li>
+          <li>低头边玩边慢吞吞地走回车门，觉得“来得及”。同时犹豫者 B 退到留守者身边。</li>
+          <li><span class="cue">4:35 叮咚</span>所有人定格；反悔者抬头看一眼，又低头继续玩。</li>
+          <li><span class="cue">4:45 咔哒</span>门在反悔者面前关上，车上的人隔门伸手，停 2 秒。</li>
+          <li><span class="cue">4:47 列车开走</span>车上三人搭肩排成一列，跟列车长从右侧匀速离场。</li>
+        </ol></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s6.jpg" alt="PPT 第 6 张：车门关上" loading="lazy"><figcaption>PPT 第 6 张 → 跪地时切第 7 张</figcaption></figure>
+      <div><span class="time">5:40 – 7:35</span><h3>第五幕　站台追悔</h3>
+        <p>灯光慢慢暗下，只留列车离开方向一点暖光。</p>
+        <ol>
+          <li>三人先愣住，给 2 秒“不敢相信”的空白，不要马上哭。</li>
+          <li><span class="cue">6:20</span>反悔者扔下游戏机去追，步子大，手拼命往前伸。</li>
+          <li>另外两人也追过去，对着远方挥手、张嘴“喊”却没有声音。</li>
+          <li>三人先后跪倒，有人捶地、有人揪衣服、有人抱头，肩膀要发抖。</li>
+        </ol></div>
+    </article>
+    <article class="act">
+      <figure><img src="img/s7.jpg" alt="PPT 第 7 张：空站台上跪地痛哭" loading="lazy"><figcaption>PPT 第 7 张</figcaption></figure>
+      <div><span class="time">7:35 – 7:45</span><h3>尾声　定格与烛光</h3>
+        <ol>
+          <li><span class="cue">7:35 静音</span>所有人保持姿势不动，灯光渐暗。</li>
+          <li><span class="cue">7:40 轻钟</span>舞台全暗，蜡烛在列车离开的方向依次亮起。</li>
+          <li>定格 3 秒，落幕。灯亮前谁都不要起身。</li>
+        </ol>
+        <p class="note">这出剧想说的：天国的列车不会永远等待。趁早回应召唤，才不会留下无法挽回的后悔。</p></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="music"><div class="wrap">
+  <h2><span class="stop">第 4 站</span>音乐与音效</h2>
+  <p class="sub">全部用钢琴纯音乐，不用带歌词的版本。三处静音（4:25、6:00、7:35）也是表演的一部分。</p>
+  <div class="player">
+    <h3>音效草稿（7′48″）</h3>
+    <p class="note" style="margin:0">现在只有钟声、列车声、叮咚、关门声，诗歌的位置先空着。排练时可以用它对卡点。</p>
+    <audio controls preload="none" src="files/draft.mp3"></audio>
+    <div class="status" aria-label="钢琴录音进度">
+      <span class="chip ok">音效 已完成</span>
+      <span class="chip">耶稣爱我 待录</span><span class="chip">预备主的道路 待录</span><span class="chip">我要向高山举目 待录</span><span class="chip">伟大奇妙神 待录</span><span class="chip">效法耶稣歌 待录</span>
+    </div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>时间</th><th>音乐 / 音效</th><th>音量与操作</th><th>台上同步</th><th>PPT</th></tr></thead>
+      <tbody>
+        <tr><td>开场前</td><td>—</td><td>—</td><td>观众入座</td><td>第 1 张</td></tr>
+        <tr><td>0:00</td><td>《耶稣爱我》+ 列车环境声</td><td>轻，0:50 开始淡出</td><td>站台日常</td><td>第 2 张</td></tr>
+        <tr><td>0:55</td><td>教堂钟声三声</td><td>每声间隔 2 秒，一声比一声略强</td><td>众人依次停下</td><td>第 3 张</td></tr>
+        <tr><td>1:02</td><td>《预备主的道路》</td><td>渐入，1:20 升高，2:35 降低</td><td>列车长入场，果断登车</td><td></td></tr>
+        <tr><td>2:50</td><td>《我要向高山举目》</td><td>慢慢升高，不要鼓点</td><td>第二次邀请，反悔者三次回头</td><td>第 4 张</td></tr>
+        <tr><td>4:20</td><td>音乐继续</td><td>—</td><td>“即将关门”手势</td><td>第 5 张</td></tr>
+        <tr class="silence"><td>4:25</td><td>全部急停</td><td>静音约 3 秒</td><td>反悔者猛地站起</td><td></td></tr>
+        <tr><td>4:28</td><td>弦乐低音一推</td><td>约 2 秒后收掉</td><td>推开同伴、冲下车</td><td></td></tr>
+        <tr><td>4:35</td><td>“叮咚”提示音</td><td>清晰响亮</td><td>全体定格</td><td></td></tr>
+        <tr><td>4:45</td><td>车门“咔哒”</td><td>短促</td><td>门在反悔者面前关上</td><td></td></tr>
+        <tr><td>4:47</td><td>《伟大奇妙神》+ 列车轰鸣</td><td>升高，5:30 起渐弱</td><td>列车离场</td><td></td></tr>
+        <tr class="silence"><td>5:40</td><td>尾音淡出</td><td>6:00 归零，安静约 5 秒</td><td>空站台，三人愣住</td><td>第 6 张</td></tr>
+        <tr><td>6:05</td><td>《效法耶稣歌》</td><td>极轻进入，7:25 开始淡出</td><td>6:20 追车，然后跪地</td><td>跪地时第 7 张</td></tr>
+        <tr class="silence"><td>7:35</td><td>完全静音</td><td>0%</td><td>全体定格，灯光渐暗</td><td></td></tr>
+        <tr><td>7:40</td><td>一声轻柔钟声</td><td>自然延音</td><td>全暗，蜡烛亮起，落幕</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<section id="slides"><div class="wrap">
+  <h2><span class="stop">第 5 站</span>投屏 PPT</h2>
+  <p class="sub">共 7 张：开场经文 + 6 张背景。背景图右下角有 AI 生成水印，投屏前裁掉。</p>
+  <div class="slides">
+    <figure><img src="img/s1.jpg" alt="经文页" loading="lazy"><figcaption><b>01</b>开场经文</figcaption></figure>
+    <figure><img src="img/s2.jpg" alt="午后的站台" loading="lazy"><figcaption><b>02</b>第一幕 站台日常</figcaption></figure>
+    <figure><img src="img/s3.jpg" alt="列车到站" loading="lazy"><figcaption><b>03</b>第二幕 列车到来</figcaption></figure>
+    <figure><img src="img/s4.jpg" alt="列车长邀请登车" loading="lazy"><figcaption><b>04</b>第三幕 抉择拉扯</figcaption></figure>
+    <figure><img src="img/s5.jpg" alt="反悔者要下车" loading="lazy"><figcaption><b>05</b>第四幕 下车离去</figcaption></figure>
+    <figure><img src="img/s6.jpg" alt="车门关上" loading="lazy"><figcaption><b>06</b>第五幕 列车远去</figcaption></figure>
+    <figure><img src="img/s7.jpg" alt="空站台跪地" loading="lazy"><figcaption><b>07</b>第五幕 跪地痛哭</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="prep"><div class="wrap">
+  <h2><span class="stop">第 6 站</span>道具与分工</h2>
+  <p class="sub">全剧约 12 人：演员 7–8 人 + 后台 4 人。道具预算约 50 元，演员穿日常干净衣服即可。</p>
+  <div class="cols">
+    <div><h3>道具</h3><ul class="list">
+      <li><span>“天国的列车”手举牌</span><span>KT 板，约 20 元</span></li>
+      <li><span>列车长白袍或白制服</span><span>1 套</span></li>
+      <li><span>游戏机</span><span>旧的或纸做的，要经得住扔</span></li>
+      <li><span>发饰、漫画书</span><span>孩子自带</span></li>
+      <li><span>LED 电子蜡烛</span><span>4–6 支，约 30 元</span></li>
+      <li><span>椅子 + 地面定位胶带</span><span>4 把</span></li>
+    </ul></div>
+    <div><h3>后台</h3><ul class="list">
+      <li><span>音控</span><span>按提示表放音轨；参加 12/13 和彩排</span></li>
+      <li><span>灯光</span><span>开场亮、第五幕渐暗、尾声全暗</span></li>
+      <li><span>PPT</span><span>开场经文，之后每幕切一张</span></li>
+      <li><span>蜡烛与道具</span><span>尾声点蜡烛，开场前摆好椅子</span></li>
+    </ul>
+    <p class="note">音乐剪成一条音轨后，音控可兼 PPT，灯光可兼蜡烛，后台最少 2 人。</p></div>
+    <div><h3>舞台</h3><ul class="list">
+      <li><span>左侧</span><span>车厢：4 把椅子排两排，车门处贴地标</span></li>
+      <li><span>中间</span><span>站台：可放 1–2 个旧行李箱</span></li>
+      <li><span>右侧</span><span>列车驶离通道，保持畅通</span></li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section id="files"><div class="wrap">
+  <h2><span class="stop">第 7 站</span>下载</h2>
+  <p class="sub">打印稿会随排练调整，每版标了版本号和日期。改动请拍照发给 Teen 负责人，统一更新后再打印。</p>
+  <div class="dl" id="dl">
+    <a class="dlbtn" href="files/actor.pdf" download="天国列车_演员版_打印给孩子.pdf"><em>第 1 版 · 11-24 · PDF</em><b>演员版（打印给孩子）</b><span>角色表 + 每幕动作，黑白打印 3 页</span></a>
+    <a class="dlbtn" href="files/actor.docx" download="天国列车_演员版_打印给孩子.docx"><em>第 1 版 · 11-24 · Word</em><b>演员版（可编辑）</b><span>需要改动时用这个</span></a>
+    <a class="dlbtn" href="files/handbook.pdf" download="天国列车_排练手册.pdf"><em>11-24 · PDF</em><b>排练手册（老师版）</b><span>完整版，含提示表、时间表、分工和背景图</span></a>
+    <a class="dlbtn" href="files/handbook.docx" download="天国列车_排练手册.docx"><em>11-24 · Word</em><b>排练手册（可编辑）</b><span>Word 版</span></a>
+    <a class="dlbtn" href="files/slides.pptx" download="天国列车_演出PPT.pptx"><em>丁丁老师版 · PPT</em><b>演出 PPT</b><span>开场经文 + 6 张背景，共 7 张</span></a>
+    <a class="dlbtn" href="files/draft.mp3" download="天国列车_音效草稿.mp3"><em>草稿 · MP3</em><b>音效草稿</b><span>只有音效，诗歌录音待加入</span></a>
+  </div>
+  
+</div></section>
+
+<section id="confirm"><div class="wrap">
+  <h2><span class="stop">第 8 站</span>需要丁丁老师确认</h2>
+  <p class="sub">原稿里有几处前后对不上，整理时先这样处理了，以丁丁老师的想法为准。</p>
+  <ol class="confirm">
+    <li><div><b>列车怎么离场</b><p>原稿一处说列车长放下牌子站在一旁，一处说推车厢离场。现在写成车上三人搭肩，跟列车长走下台，椅子留在原地。</p></div></li>
+    <li><div><b>反悔者下车后</b><p>按原稿新加的“边玩游戏机边慢吞吞走向列车”，写成他走到车门前门就关了，和 PPT 第 6 张一致。</p></div></li>
+    <li><div><b>时间线统一</b><p>剧本和配乐稿的时间不一致，现以配乐稿为准统一，关门挪到 4:45，留出反悔者走回车门的时间。</p></div></li>
+    <li><div><b>“叮咚”的顺序</b><p>原剧本是先叮咚、反悔者再下车；现在按配乐稿，反悔者先下车，再响叮咚。</p></div></li>
+    <li><div><b>第二次钟声</b><p>原剧本有“第二次钟声两声”，配乐稿没有，现在没放，可以加在 2:50 第二次邀请时。</p></div></li>
+    <li><div><b>道具分配</b><p>A 拿游戏机、B 拿发饰、留守者拿漫画书，反悔者没有自己的道具，下车后捡 A 扔掉的游戏机。</p></div></li>
+    <li><div><b>结尾经文</b><p>开场已有马可福音 1:15。结尾比较沉重，可以考虑蜡烛亮起后再打一句经文，例如哥林多后书 6:2。</p></div></li>
+  </ol>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+    <p>Teen 事工 · 2026 圣诞</p>
+</div></footer>
+
+<script>
+(function(){
+  // 今天的日期（按北京时间算到“天”）
+  function today(){
+    var d=new Date(Date.now()+8*3600e3);
+    return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()));
+  }
+  function parse(s){var p=s.split('-');return new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));}
+  var t=today(), show=parse('2026-12-20');
+  var days=Math.round((show-t)/864e5);
+  document.getElementById('countdown').textContent = days>0 ? days+' 天' : (days===0 ? '今天' : '已演出');
+
+  var rows=document.querySelectorAll('#board tr'), nextMarked=false;
+  rows.forEach(function(tr){
+    var d=parse(tr.dataset.date), cell=tr.querySelector('.s'), pill=document.createElement('span');
+    var diff=Math.round((d-t)/864e5);
+    if(diff<0){pill.className='pill done';pill.textContent='已完成';}
+    else if(diff===0){pill.className='pill today';pill.textContent='今天';tr.classList.add('is-next');nextMarked=true;}
+    else if(!nextMarked){pill.className='pill next';pill.textContent=diff+' 天后';tr.classList.add('is-next');nextMarked=true;}
+    else{pill.className='pill later';pill.textContent=diff+' 天后';}
+    cell.appendChild(pill);
+  });
+
+})();
+</script>
+</body>
+</html>
