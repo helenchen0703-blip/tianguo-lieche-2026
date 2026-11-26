@@ -119,6 +119,12 @@ h3{font-size:19px;margin:0}
 .act .cue{font-family:var(--mono);font-size:12px;color:var(--night);background:var(--lamp);padding:1px 6px;border-radius:3px;margin-right:4px;white-space:nowrap}
 @media (max-width:720px){.act{grid-template-columns:1fr}.act figure{position:static}}
 
+/* 排练参考视频 */
+.film{margin:0 0 36px;display:grid;gap:10px}
+.film video{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;border:1px solid var(--rail)}
+.film figcaption{font-size:14px;color:var(--mute);max-width:46em}
+.film figcaption b{color:var(--ticket);font-weight:500}
+
 /* 音乐 */
 .player{background:var(--night-2);border:1px solid var(--rail);border-radius:10px;padding:18px;display:grid;gap:12px;margin-bottom:22px}
 .player audio{width:100%}
@@ -170,7 +176,7 @@ footer p{margin:0 0 6px}
 </head>
 <body>
 <nav class="top" aria-label="页面导航"><div class="wrap">
-  <a href="#schedule">时间表</a><a href="#cast">角色</a><a href="#script">剧本</a><a href="#music">音乐</a><a href="#slides">PPT</a><a href="#prep">道具与分工</a><a href="#files">下载</a><a href="#confirm">待确认</a>
+  <a href="#schedule">时间表</a><a href="#cast">角色</a><a href="#video">视频</a><a href="#script">剧本</a><a href="#music">音乐</a><a href="#slides">PPT</a><a href="#prep">道具与分工</a><a href="#files">下载</a><a href="#confirm">待确认</a>
 </div></nav>
 
 <header class="hero">
@@ -274,6 +280,10 @@ footer p{margin:0 0 6px}
 <section id="script"><div class="wrap">
   <h2><span class="stop">第 3 站</span>分幕剧本</h2>
   <p class="sub">时间和下面的音乐提示表一致。黄色标签是音乐或音效的卡点。</p>
+  <figure class="film" id="video">
+    <video controls playsinline preload="metadata" poster="img/full-poster.jpg" src="files/full.mp4" aria-label="《天国列车》完整版排练参考视频"></video>
+    <figcaption><b>完整版排练参考视频（8 分 16 秒）。</b>动画示意，没有配音。画面左边显示剧中时间、幕名和下一个卡点。开头 8 秒是经文页，结尾多一张经文卡（哥林多后书 6:2）。<a href="files/full.mp4" download="天国列车_完整版_微信版.mp4">下载视频（53 MB）</a></figcaption>
+  </figure>
   <div class="acts">
     <article class="act">
       <figure><img src="img/s1.jpg" alt="PPT 第 1 张：经文页" loading="lazy"><figcaption>PPT 第 1 张 · 开场经文</figcaption></figure>
@@ -435,6 +445,7 @@ footer p{margin:0 0 6px}
     <a class="dlbtn" href="files/handbook.pdf" download="天国列车_排练手册.pdf"><em>11-24 · PDF</em><b>排练手册（老师版）</b><span>完整版，含提示表、时间表、分工和背景图</span></a>
     <a class="dlbtn" href="files/handbook.docx" download="天国列车_排练手册.docx"><em>11-24 · Word</em><b>排练手册（可编辑）</b><span>Word 版</span></a>
     <a class="dlbtn" href="files/slides.pptx" download="天国列车_演出PPT.pptx"><em>丁丁老师版 · PPT</em><b>演出 PPT</b><span>开场经文 + 6 张背景，共 7 张</span></a>
+    <a class="dlbtn" href="files/full.mp4" download="天国列车_完整版_微信版.mp4"><em>11-26 · MP4 · 53 MB</em><b>完整版排练参考视频</b><span>8 分 16 秒，可直接发微信</span></a>
     <a class="dlbtn" href="files/draft.mp3" download="天国列车_音效草稿.mp3"><em>草稿 · MP3</em><b>音效草稿</b><span>只有音效，诗歌录音待加入</span></a>
   </div>
   
