@@ -80,6 +80,17 @@ h3{font-size:19px;margin:0}
 .todo .due.urgent{color:var(--alert)}
 .todo p{margin:0;color:var(--mute);font-size:14px}
 
+/* 每次排练的具体安排 */
+.plan-h{margin:34px 0 4px;font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.04em}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-top:16px}
+.plan article{background:var(--night-2);border:1px solid var(--rail);border-radius:10px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+.plan .when{font-family:var(--mono);font-size:12px;color:var(--lamp);letter-spacing:.06em}
+.plan ol{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.plan li{display:grid;grid-template-columns:4.2em minmax(0,1fr);gap:8px;font-size:14.5px;line-height:1.55}
+.plan li b{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--mute);padding-top:2px;font-variant-numeric:tabular-nums}
+.plan .hw{margin:2px 0 0;padding-top:8px;border-top:1px dashed var(--rail);font-size:13.5px;color:var(--mute)}
+.plan .hw b{color:var(--ticket);font-weight:500}
+
 /* 角色 */
 .cast{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .ticket{position:relative;background:var(--ticket);color:var(--night);border-radius:8px;padding:16px 18px 14px;display:grid;gap:6px;align-content:start}
@@ -200,6 +211,51 @@ footer p{margin:0 0 6px}
     <article><span class="due">12/10 前</span><h3>交钢琴录音</h3><p>司琴录 5 首纯音乐，交来后自动合成完整音轨。</p></article>
     <article><span class="due">12/13 前</span><h3>道具和 PPT</h3><p>手举牌、LED 蜡烛备齐；PPT 第 2–7 张裁掉水印。</p></article>
   </div>
+
+  <h3 class="plan-h" id="plan">每次排练具体做什么</h3>
+  <p class="sub">按每次约 40 分钟安排。时间不够时，先压缩“复习”，新内容和最后的连排不要省。</p>
+  <div class="plan">
+    <article><span class="when">11/29 主日 · 第 1 次</span><h3>认识故事，走第一、二幕</h3>
+      <ol>
+        <li><b>5 分钟</b><span>一起看一遍排练参考视频。</span></li>
+        <li><b>10 分钟</b><span>讲故事和主旨，宣布角色，发演员版。</span></li>
+        <li><b>5 分钟</b><span>练哑剧基本功：动作慢、幅度大、会定格。</span></li>
+        <li><b>20 分钟</b><span>不放音乐，走第一、二幕（0:00–2:50）的位置和上下场。</span></li>
+      </ol>
+      <p class="hw"><b>回家：</b>看两遍视频，记住自己在哪里上场、下场。</p></article>
+    <article><span class="when">12/06 主日 · 第 2 次</span><h3>五幕动作全部慢练</h3>
+      <ol>
+        <li><b>5 分钟</b><span>复习第一、二幕。</span></li>
+        <li><b>15 分钟</b><span>新学第三、四、五幕和尾声的走位，在地上贴标记。</span></li>
+        <li><b>15 分钟</b><span>不放音乐，五幕从头到尾慢练 3 遍。</span></li>
+        <li><b>5 分钟</b><span>单独练中途反悔者下车、捡游戏机这一段。</span></li>
+      </ol>
+      <p class="hw"><b>回家：</b>对着视频练自己的卡点。</p></article>
+    <article><span class="when">12/13 主日 · 第 3 次</span><h3>合音乐和 PPT</h3>
+      <ol>
+        <li><b>5 分钟</b><span>音控试音量，PPT 同工试翻页。</span></li>
+        <li><b>10 分钟</b><span>重点练 4:25–4:47：急停、冲下车、关门、离场。</span></li>
+        <li><b>20 分钟</b><span>带音乐和 PPT 完整连排 2 遍，计时。</span></li>
+        <li><b>5 分钟</b><span>练烛光定格和谢幕，确认服装、道具。</span></li>
+      </ol>
+      <p class="hw"><b>回家：</b>不再加新动作，在心里把全剧过一遍。</p></article>
+    <article><span class="when">12/19 周六 · 彩排</span><h3>在正式场地合成</h3>
+      <ol>
+        <li><b>第 1 步</b><span>技术走台：灯光、音乐、PPT、蜡烛各对一遍卡点。</span></li>
+        <li><b>第 2 步</b><span>完整演第 1 遍，有问题可以停下来改。</span></li>
+        <li><b>第 3 步</b><span>完整演第 2 遍，中途不停，当作正式演出。</span></li>
+        <li><b>第 4 步</b><span>练上场、谢幕、下场，道具收回固定位置。</span></li>
+      </ol>
+      <p class="hw"><b>回家：</b>早点休息。彩排后不再改动作。</p></article>
+    <article><span class="when">12/20 主日 · 演出</span><h3>提前 30 分钟到场</h3>
+      <ol>
+        <li><b>第 1 步</b><span>检查道具、音响和投影。</span></li>
+        <li><b>第 2 步</b><span>演员在台上走一遍位置，不演动作。</span></li>
+        <li><b>第 3 步</b><span>换好服装，一起祷告，在侧台就位。</span></li>
+      </ol>
+      <p class="hw"><b>提醒：</b>屏幕先停在经文页，等主持人报幕。</p></article>
+  </div>
+  <p class="note">每个戏份重的角色请指定一位替补，至少看过走位。12/5、12/12 周六线上各用几分钟提醒孩子看视频、记卡点。</p>
 </div></section>
 
 <section id="cast"><div class="wrap">
