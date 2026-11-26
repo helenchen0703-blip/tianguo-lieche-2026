@@ -116,6 +116,7 @@ h3{font-size:19px;margin:0}
 .act ol,.act ul{margin:8px 0 0;padding-left:1.3em;display:grid;gap:6px}
 .act li::marker{color:var(--lamp);font-family:var(--mono)}
 .act p{margin:0}
+.act p.note{margin-top:10px}
 .act .cue{font-family:var(--mono);font-size:12px;color:var(--night);background:var(--lamp);padding:1px 6px;border-radius:3px;margin-right:4px;white-space:nowrap}
 @media (max-width:720px){.act{grid-template-columns:1fr}.act figure{position:static}}
 
@@ -146,6 +147,12 @@ h3{font-size:19px;margin:0}
 .slides img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--rail);background:#fff}
 .slides figcaption{font-size:13px;color:var(--mute);margin-top:4px}
 .slides figcaption b{font-family:var(--mono);color:var(--lamp);font-weight:500;margin-right:6px}
+
+/* 第 8 张经文页的示意（照 PPT 的配色排版，不是截图） */
+.vslide{container-type:inline-size;aspect-ratio:16/9;background:#fff;border-radius:6px;border:1px solid var(--rail);display:grid;place-content:center;gap:3cqw;padding:5cqw;text-align:center;font-weight:700;line-height:1.35}
+.vslide span{color:#7030a0;font-size:4.3cqw}
+.vslide strong{color:#e02020;font-size:6.2cqw}
+.act .vslide{border-radius:8px}
 
 /* 准备 */
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
@@ -188,7 +195,7 @@ footer p{margin:0 0 6px}
       <li><b>12/20</b><span>主日演出</span></li>
       <li><b id="countdown">—</b><span>距离演出</span></li>
       <li><b>7–8</b><span>位小演员</span></li>
-      <li><b>7′45″</b><span>全剧时长</span></li>
+      <li><b>8′00″</b><span>全剧时长</span></li>
       <li><b>3 + 1</b><span>次排练 + 彩排</span></li>
     </ul>
   </div>
@@ -352,9 +359,15 @@ footer p{margin:0 0 6px}
         <ol>
           <li><span class="cue">7:35 静音</span>所有人保持姿势不动，灯光渐暗。</li>
           <li><span class="cue">7:40 轻钟</span>舞台全暗，蜡烛在列车离开的方向依次亮起。</li>
-          <li>定格 3 秒，落幕。灯亮前谁都不要起身。</li>
+          <li>定格 3 秒，屏幕切到第 8 张经文。灯亮前谁都不要起身。</li>
         </ol>
         <p class="note">这出剧想说的：天国的列车不会永远等待。趁早回应召唤，才不会留下无法挽回的后悔。</p></div>
+    </article>
+    <article class="act">
+      <figure><div class="vslide" role="img" aria-label="PPT 第 8 张：结尾经文"><span>因为他说：“在悦纳的时候，我应允了你；在拯救的日子，我搭救了你。”</span><strong>看哪，现在正是悦纳的时候，<br>现在正是拯救的日子。</strong></div><figcaption>PPT 第 8 张 · 结尾经文</figcaption></figure>
+      <div><span class="time">7:45 – 8:00</span><h3>结尾经文</h3>
+        <p>蜡烛亮起后，屏幕切到第 8 张，停约 15 秒：“因为他说：‘在悦纳的时候，我应允了你；在拯救的日子，我搭救了你。’看哪，现在正是悦纳的时候，现在正是拯救的日子。”（哥林多后书 6:2）</p>
+        <p class="note">这一段怎么演还没定。现在暂按“演员保持定格、不放音乐、经文停 15 秒后灯亮谢幕”来写，以丁丁老师的安排为准。</p></div>
     </article>
   </div>
 </div></section>
@@ -389,7 +402,8 @@ footer p{margin:0 0 6px}
         <tr class="silence"><td>5:40</td><td>尾音淡出</td><td>6:00 归零，安静约 5 秒</td><td>空站台，三人愣住</td><td>第 6 张</td></tr>
         <tr><td>6:05</td><td>《效法耶稣歌》</td><td>极轻进入，7:25 开始淡出</td><td>6:20 追车，然后跪地</td><td>跪地时第 7 张</td></tr>
         <tr class="silence"><td>7:35</td><td>完全静音</td><td>0%</td><td>全体定格，灯光渐暗</td><td></td></tr>
-        <tr><td>7:40</td><td>一声轻柔钟声</td><td>自然延音</td><td>全暗，蜡烛亮起，落幕</td><td></td></tr>
+        <tr><td>7:40</td><td>一声轻柔钟声</td><td>自然延音</td><td>全暗，蜡烛亮起</td><td></td></tr>
+        <tr class="silence"><td>7:45</td><td>无音乐（暂定）</td><td>0%</td><td>保持定格，约 15 秒后灯亮谢幕</td><td>第 8 张经文</td></tr>
       </tbody>
     </table>
   </div>
@@ -397,7 +411,7 @@ footer p{margin:0 0 6px}
 
 <section id="slides"><div class="wrap">
   <h2><span class="stop">第 5 站</span>投屏 PPT</h2>
-  <p class="sub">共 7 张：开场经文 + 6 张背景。背景图右下角有 AI 生成水印，投屏前裁掉。</p>
+  <p class="sub">共 8 张：开场经文 + 6 张背景 + 结尾经文。背景图右下角有 AI 生成水印，投屏前裁掉。</p>
   <div class="slides">
     <figure><img src="img/s1.jpg" alt="经文页" loading="lazy"><figcaption><b>01</b>开场经文</figcaption></figure>
     <figure><img src="img/s2.jpg" alt="午后的站台" loading="lazy"><figcaption><b>02</b>第一幕 站台日常</figcaption></figure>
@@ -406,6 +420,7 @@ footer p{margin:0 0 6px}
     <figure><img src="img/s5.jpg" alt="反悔者要下车" loading="lazy"><figcaption><b>05</b>第四幕 下车离去</figcaption></figure>
     <figure><img src="img/s6.jpg" alt="车门关上" loading="lazy"><figcaption><b>06</b>第五幕 列车远去</figcaption></figure>
     <figure><img src="img/s7.jpg" alt="空站台跪地" loading="lazy"><figcaption><b>07</b>第五幕 跪地痛哭</figcaption></figure>
+    <figure><div class="vslide" role="img" aria-label="PPT 第 8 张：结尾经文"><span>因为他说：“在悦纳的时候，我应允了你；在拯救的日子，我搭救了你。”</span><strong>看哪，现在正是悦纳的时候，<br>现在正是拯救的日子。</strong></div><figcaption><b>08</b>结尾经文</figcaption></figure>
   </div>
 </div></section>
 
@@ -444,7 +459,7 @@ footer p{margin:0 0 6px}
     <a class="dlbtn" href="files/actor.docx" download="天国列车_演员版_打印给孩子.docx"><em>第 1 版 · 11-24 · Word</em><b>演员版（可编辑）</b><span>需要改动时用这个</span></a>
     <a class="dlbtn" href="files/handbook.pdf" download="天国列车_排练手册.pdf"><em>11-24 · PDF</em><b>排练手册（老师版）</b><span>完整版，含提示表、时间表、分工和背景图</span></a>
     <a class="dlbtn" href="files/handbook.docx" download="天国列车_排练手册.docx"><em>11-24 · Word</em><b>排练手册（可编辑）</b><span>Word 版</span></a>
-    <a class="dlbtn" href="files/slides.pptx" download="天国列车_演出PPT.pptx"><em>丁丁老师版 · PPT</em><b>演出 PPT</b><span>开场经文 + 6 张背景，共 7 张</span></a>
+    <a class="dlbtn" href="files/slides.pptx" download="天国列车_演出PPT.pptx"><em>丁丁老师版 · 11-26 · PPT</em><b>演出 PPT</b><span>开场经文 + 6 张背景 + 结尾经文，共 8 张</span></a>
     <a class="dlbtn" href="files/full.mp4" download="天国列车_完整版_微信版.mp4"><em>11-26 · MP4 · 53 MB</em><b>完整版排练参考视频</b><span>8 分 16 秒，可直接发微信</span></a>
     <a class="dlbtn" href="files/draft.mp3" download="天国列车_音效草稿.mp3"><em>草稿 · MP3</em><b>音效草稿</b><span>只有音效，诗歌录音待加入</span></a>
   </div>
@@ -461,7 +476,7 @@ footer p{margin:0 0 6px}
     <li><div><b>“叮咚”的顺序</b><p>原剧本是先叮咚、反悔者再下车；现在按配乐稿，反悔者先下车，再响叮咚。</p></div></li>
     <li><div><b>第二次钟声</b><p>原剧本有“第二次钟声两声”，配乐稿没有，现在没放，可以加在 2:50 第二次邀请时。</p></div></li>
     <li><div><b>道具分配</b><p>A 拿游戏机、B 拿发饰、留守者拿漫画书，反悔者没有自己的道具，下车后捡 A 扔掉的游戏机。</p></div></li>
-    <li><div><b>结尾经文</b><p>开场已有马可福音 1:15。结尾比较沉重，可以考虑蜡烛亮起后再打一句经文，例如哥林多后书 6:2。</p></div></li>
+    <li><div><b>结尾经文怎么呈现</b><p>丁丁老师已在 PPT 加了第 8 张结尾经文（哥林多后书 6:2）。还需要定：停多久、要不要配音乐、要不要有人朗读。现在暂按停 15 秒、不放音乐来写。</p></div></li>
   </ol>
 </div></section>
 </main>
